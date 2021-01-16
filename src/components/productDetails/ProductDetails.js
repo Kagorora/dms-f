@@ -1,5 +1,13 @@
-import React, { useEffect } from "react";
-import { Row, Col, ListGroup, Card, Image, Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import {
+  Row,
+  Col,
+  ListGroup,
+  Card,
+  Image,
+  Button,
+  Form,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Ratings from "../reusable/Rating/Rating";
@@ -8,6 +16,7 @@ import Message from "../reusable/Message.js";
 import Loader from "../reusable/Loader.js";
 
 const ProductDetails = ({ match }) => {
+  const [qty, setQty] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -39,6 +48,28 @@ const ProductDetails = ({ match }) => {
               <ListGroup.Item>
                 <h3>{product.name}</h3>
               </ListGroup.Item>
+              {product.countInStock > 0 && (
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Quantity</Col>
+                    <Col>
+                      <Form.Control
+                        as='select'
+                        value={qty}
+                        onChange={(e) => setQty(e.target.value)}
+                      >
+                        {[...Array(product.countInStock).keys()].map(
+                          (index) => (
+                            <option key={index + 1} value={index + 1}>
+                              {index + 1}
+                            </option>
+                          )
+                        )}
+                      </Form.Control>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              )}
               <ListGroup.Item>
                 <Ratings
                   rating={product.rating}
@@ -69,6 +100,28 @@ const ProductDetails = ({ match }) => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Quantity</Col>
+                      <Col>
+                        <Form.Control
+                          as='select'
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                        >
+                          {[...Array(product.countInStock).keys()].map(
+                            (index) => (
+                              <option key={index + 1} value={index + 1}>
+                                {index + 1}
+                              </option>
+                            )
+                          )}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
                 <ListGroup.Item>
                   <Button
                     className='btn-block rounded'
