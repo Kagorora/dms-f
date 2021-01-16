@@ -15,7 +15,7 @@ import { listProductDetails } from "../../actions/productsActions";
 import Message from "../reusable/Message.js";
 import Loader from "../reusable/Loader.js";
 
-const ProductDetails = ({ match }) => {
+const ProductDetails = ({ match, history }) => {
   const [qty, setQty] = useState(0);
 
   const dispatch = useDispatch();
@@ -27,6 +27,10 @@ const ProductDetails = ({ match }) => {
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
   }, [dispatch, match]);
+
+  const AddProductonCartHandler = () => {
+    history.push(`/cart/${match.params.id}?$qty=${qty}`);
+  };
 
   return (
     <>
@@ -126,6 +130,7 @@ const ProductDetails = ({ match }) => {
                   <Button
                     className='btn-block rounded'
                     disabled={product.countInStock === 0}
+                    onClick={AddProductonCartHandler}
                   >
                     {product.countInStock > 0 ? "ADD TO CART" : "Out of stock"}
                   </Button>
