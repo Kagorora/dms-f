@@ -11,12 +11,12 @@ import {
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Ratings from "../reusable/Rating/Rating";
-import { listProductDetails } from "../../actions/productsActions";
+import { listProductDetails } from "../../store/actions/productsActions";
 import Message from "../reusable/Message.js";
 import Loader from "../reusable/Loader.js";
 
 const ProductDetails = ({ match, history }) => {
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
 
   const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ const ProductDetails = ({ match, history }) => {
     dispatch(listProductDetails(match.params.id));
   }, [dispatch, match]);
 
-  const AddProductonCartHandler = () => {
+  const AddProductOnCartHandler = () => {
     history.push(`/cart/${match.params.id}?$qty=${qty}`);
   };
 
@@ -52,28 +52,6 @@ const ProductDetails = ({ match, history }) => {
               <ListGroup.Item>
                 <h3>{product.name}</h3>
               </ListGroup.Item>
-              {product.countInStock > 0 && (
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Quantity</Col>
-                    <Col>
-                      <Form.Control
-                        as='select'
-                        value={qty}
-                        onChange={(e) => setQty(e.target.value)}
-                      >
-                        {[...Array(product.countInStock).keys()].map(
-                          (index) => (
-                            <option key={index + 1} value={index + 1}>
-                              {index + 1}
-                            </option>
-                          )
-                        )}
-                      </Form.Control>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-              )}
               <ListGroup.Item>
                 <Ratings
                   rating={product.rating}
@@ -130,7 +108,7 @@ const ProductDetails = ({ match, history }) => {
                   <Button
                     className='btn-block rounded'
                     disabled={product.countInStock === 0}
-                    onClick={AddProductonCartHandler}
+                    onClick={AddProductOnCartHandler}
                   >
                     {product.countInStock > 0 ? "ADD TO CART" : "Out of stock"}
                   </Button>
