@@ -9,7 +9,7 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import { addToCart } from "../../store/actions/cartsActions";
+import { addToCart, removeFromCart } from "../../store/actions/cartsActions";
 import Message from "../reusable/Message.js";
 import { Link } from "react-router-dom";
 
@@ -34,7 +34,7 @@ const Cart = ({ match, location, history }) => {
   };
 
   const removeItemHandler = (id) => {
-    console.log("remove this product", id);
+    dispatch(removeFromCart(id));
   };
 
   return (
