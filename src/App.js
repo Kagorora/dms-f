@@ -1,11 +1,12 @@
-import React from "react";
-import { Container } from "react-bootstrap";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Header from "./components/reusable/Header/Header";
-import Footer from "./components/reusable/Footer/Footer";
-import Buyer from "./components/buyer/Buyer";
-import ProductDetails from "./components/productDetails/ProductDetails";
-import Cart from "./components/cart/Cart.js";
+import React from 'react';
+import { Container } from 'react-bootstrap';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Header from './components/reusable/Header/Header';
+import Footer from './components/reusable/Footer/Footer';
+import Buyer from './components/buyer/Buyer';
+import ProductDetails from './components/productDetails/ProductDetails';
+import Cart from './components/cart/Cart.js';
+import Login from './components/login/Login.js';
 
 const App = () => {
   return (
@@ -13,9 +14,10 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
-          <Route path='/' component={Buyer} exact />
+          <Route path='/login' component={Login} exact />
           <Route path='/product/:id' component={ProductDetails} />
           <Route path='/cart/:id?' component={Cart} />
+          <Route path='/' component={Buyer} exact />
         </Container>
       </main>
       <Footer />
