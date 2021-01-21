@@ -13,6 +13,7 @@ const Register = () => {
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
+    const [nationalId, setNationalId] = useState('');
     const [location, setLocation] = useState('');
     const [userType, setUserType] = useState('');
     const [password, setPassword] = useState('');
@@ -24,11 +25,14 @@ const Register = () => {
 
 
     const handleSubmit = (e) => {
+
         e.preventDefault();
         // if (password !== confirmPassword){
         //     error = 'passwords are not matching!, try again'
         // }
-        dispatch(register(name, phoneNumber, email, location, userType, password))
+        dispatch(register(name, phoneNumber, email, nationalId,location, userType, password))
+
+
     }
 
     return (
@@ -44,6 +48,10 @@ const Register = () => {
                 <FormGroup>
                     <Form.Label>Phone Number</Form.Label>
                     <Form.Control onChange={(e) => setPhoneNumber(e.target.value)} value={phoneNumber} placeholder='enter Phone Number'></Form.Control>
+                </FormGroup>
+                <FormGroup>
+                    <Form.Label>nationalId</Form.Label>
+                    <Form.Control onChange={(e) => setNationalId(e.target.value)} value={nationalId} placeholder='enter NationalId'></Form.Control>
                 </FormGroup>
                 <FormGroup>
                     <Form.Label type='email'>email</Form.Label>
