@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { FormGroup, Form, Button, Row, Col } from 'react-bootstrap';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import FormContainer from '../reusable/FormContainer.js';
-import {register} from '../../store/actions/usersActions.js'
+import { register } from '../../store/actions/usersActions.js'
 import Message from '../reusable/Message.js';
 import Loader from '../reusable/Loader.js';
 
-const Register = () => {
+const Register = ({ history, location }) => {
 
     const dispatch = new useDispatch();
 
@@ -14,32 +15,38 @@ const Register = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [nationalId, setNationalId] = useState('');
-    const [location, setLocation] = useState('');
+    const [address, setAddress] = useState('');
     const [userType, setUserType] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [message, setMessage] = useState('');
 
     const userRegister = useSelector(state => state.userRegister)
 
-    const { userInfo , loading, error} = userRegister;
+    const { userInfo, loading, error } = userRegister;
 
+    const redirect = location.search ? location.search.split('=')[1] : '/';
+
+    useEffect(() => {
+        if (userInfo) {
+            history.push(redirect);
+        }
+    }, [history, userInfo, redirect]);
 
     const handleSubmit = (e) => {
-
         e.preventDefault();
-        // if (password !== confirmPassword){
-        //     error = 'passwords are not matching!, try again'
-        // }
-        dispatch(register(name, phoneNumber, email, nationalId,location, userType, password))
-
-
+        if (password !== confirmPassword) {
+            setMessage('passwords are not matching!, try again');
+        }
+        dispatch(register(name, phoneNumber, email, nationalId, location = address, userType, password))
     }
 
     return (
         <FormContainer >
             <h1>SIGN UP</h1>
-            { loading && <Loader/>}
+            { loading && <Loader />}
             {error && <Message variant='danger'>{error}</Message>}
+            {message && <Message variant='danger'>{message}</Message>}
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Form.Label>Name</Form.Label>
@@ -54,15 +61,15 @@ const Register = () => {
                     <Form.Control onChange={(e) => setNationalId(e.target.value)} value={nationalId} placeholder='enter NationalId'></Form.Control>
                 </FormGroup>
                 <FormGroup>
-                    <Form.Label type='email'>email</Form.Label>
-                    <Form.Control onChange={(e) => setEmail(e.target.value)} value={email} placeholder='enter email'></Form.Control>
+                    <Form.Label >email</Form.Label>
+                    <Form.Control type='email' onChange={(e) => setEmail(e.target.value)} value={email} placeholder='enter email'></Form.Control>
                 </FormGroup>
                 <FormGroup>
                     <Form.Label>location</Form.Label>
-                    <Form.Control onChange={(e) => setLocation(e.target.value)} value={location} placeholder='enter location'></Form.Control>
+                    <Form.Control onChange={(e) => setAddress(e.target.value)} value={address} placeholder='enter Location'></Form.Control>
                 </FormGroup>
                 <FormGroup>
-                <Form.Label>user Type</Form.Label>
+                    <Form.Label>user Type</Form.Label>
                     <Form.Control
                         as='select'
                         value={userType}
@@ -89,15 +96,17 @@ const Register = () => {
                 <Button type='submit' variant='primary' className='btn-block rounded'>SIGN UP</Button>
             </Form>
             <div className="my-3">
-                {/* <a>have an account? <Link to='/login'>Sign Up</Link></a> */}
+
+
                 <Row className='py-3'>
-        <Col>
-        have an account? 
-          {/* <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
-            Register
-          </Link> */}
-        </Col>
-      </Row>
+                    <Col>
+                        Have an account?
+          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+                            Login
+          </Link>
+                    </Col>
+                </Row>
+
             </div>
         </FormContainer>
     )
