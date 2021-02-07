@@ -9,6 +9,7 @@ import Cart from './components/cart/Cart.js';
 import Login from './components/login/Login.js';
 import Register from './components/register/Register.js'
 import Profile from './components/profile/Profile.js';
+import Shipping from './components/shipping/Shipping.js';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
+          <Route path='/shipping' component={Shipping} />
           <Route path='/profile' component={Profile} /> 
           <Route path='/register' component={Register}/>
           <Route path='/login' component={Login} exact />
