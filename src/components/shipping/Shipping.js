@@ -11,11 +11,11 @@ const Shipping = ({ history }) => {
 
   const dispatch = useDispatch();
 
-  const [province, setProvince] = useState(shippingAddress.province);
-  const [district, setDistrict] = useState(shippingAddress.district);
-  const [sector, setSector] = useState(shippingAddress.sector);
+  const [Province, setProvince] = useState(shippingAddress.Province);
+  const [District, setDistrict] = useState(shippingAddress.District);
+  const [Sector, setSector] = useState(shippingAddress.Sector);
   const [cell, setCell] = useState(shippingAddress.cell);
-  const [village, setVillage] = useState(shippingAddress.village);
+  const [city, setCity] = useState(shippingAddress.city);
   const [streetNumber, setStreetNumber] = useState(
     shippingAddress.streetNumber
   );
@@ -24,11 +24,11 @@ const Shipping = ({ history }) => {
     e.preventDefault();
     dispatch(
       saveShippingAddress({
-        province,
-        district,
-        sector,
+        Province,
+        District,
+        Sector,
         cell,
-        village,
+        city,
         streetNumber,
       })
     );
@@ -44,7 +44,7 @@ const Shipping = ({ history }) => {
           <Form.Label>Province</Form.Label>
           <Form.Control
             onChange={(e) => setProvince(e.target.value)}
-            value={province}
+            value={Province}
             placeholder='enter Province'
           ></Form.Control>
         </FormGroup>
@@ -52,7 +52,7 @@ const Shipping = ({ history }) => {
           <Form.Label>District</Form.Label>
           <Form.Control
             onChange={(e) => setDistrict(e.target.value)}
-            value={district}
+            value={District}
             placeholder='enter District'
           ></Form.Control>
         </FormGroup>
@@ -60,7 +60,7 @@ const Shipping = ({ history }) => {
           <Form.Label>Sector</Form.Label>
           <Form.Control
             onChange={(e) => setSector(e.target.value)}
-            value={sector}
+            value={Sector}
             placeholder='enter Sector'
           ></Form.Control>
         </FormGroup>
@@ -75,8 +75,8 @@ const Shipping = ({ history }) => {
         <FormGroup>
           <Form.Label>Village</Form.Label>
           <Form.Control
-            onChange={(e) => setVillage(e.target.value)}
-            value={village}
+            onChange={(e) => setCity(e.target.value)}
+            value={city}
             placeholder='enter Village'
           ></Form.Control>
         </FormGroup>

@@ -19,8 +19,7 @@ const Payment = ({ history }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(paymentMethod);
-    dispatch(savePaymentMethod({ paymentMethod }));
+    dispatch(savePaymentMethod(paymentMethod));
     history.push("/placeOrder");
   };
 

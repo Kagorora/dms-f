@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Button, Col, Row, ListGroup, Image, Card } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Message from "../reusable/Message.js";
 import CheckoutSteps from "../reusable/CheckoutSteps/CheckoutSteps.js";
+import { createOrder } from "../../store/actions/orderActions.js";
 
-const PlaceOrder = () => {
+const PlaceOrder = ({ history }) => {
+  const dispatch = useDispatch();
+
   const cart = useSelector((state) => state.cart);
   const { shippingAddress, paymentMethod, cartItems } = cart;
   const {
-    province,
-    district,
-    sector,
+    Province,
+    District,
+    Sector,
     cell,
-    village,
+    city,
     streetNumber,
   } = shippingAddress;
 
@@ -35,9 +38,27 @@ const PlaceOrder = () => {
     Number(taxPrice)
   ).toFixed(2);
 
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { order, success, error } = orderCreate;
+
+  useEffect(() => {
+    if (success) {
+      history.push(`/order/${order._id}`);
+    }
+  }, [history, success]);
+
   const placeOrderHandler = () => {
-    //
-    console.log("placeOrder");
+    dispatch(
+      createOrder({
+        orderItems: cartItems,
+        orderAddress: shippingAddress,
+        paymentMethod: paymentMethod,
+        itemsPrice: itemsPrice,
+        shippingPrice: shippingPrice,
+        taxPrice: taxPrice,
+        totalPrice: totalPrice,
+      })
+    );
   };
 
   return (
@@ -50,8 +71,7 @@ const PlaceOrder = () => {
               <h2>Destination</h2>
               <p>
                 <strong>Address: </strong>
-                {province}, {district}, {sector}, {cell}, {village},{" "}
-                {streetNumber}
+                {Province}, {District}, {Sector}, {cell}, {city}, {streetNumber}
               </p>
             </ListGroup.Item>
 
@@ -128,6 +148,11 @@ const PlaceOrder = () => {
                   <Col>FRW {totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              {error && (
+                <ListGroup.Item>
+                  <Message variant='danger'>{error}</Message>
+                </ListGroup.Item>
+              )}
               <ListGroup.Item>
                 <Button
                   type='button'
