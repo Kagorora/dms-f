@@ -21,7 +21,7 @@ const Payment = ({ history }) => {
     e.preventDefault();
     console.log(paymentMethod);
     dispatch(savePaymentMethod({ paymentMethod }));
-    history.push("/placeorders");
+    history.push("/placeOrder");
   };
 
   return (
