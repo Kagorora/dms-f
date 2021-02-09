@@ -39,6 +39,13 @@ const Header = () => {
                   </Nav.Link>
                 </LinkContainer>
               )}
+              {userInfo && userInfo.userType === "admin" && (
+                <LinkContainer to='/users'>
+                  <Nav.Link>
+                    <i className='fas fa-user-friends'></i> Users
+                  </Nav.Link>
+                </LinkContainer>
+              )}
               <LinkContainer to='/cart'>
                 <Nav.Link>
                   <i className='fas fa-shopping-cart'></i> Cart

@@ -16,6 +16,10 @@ import {
   USER_REGISTER_SUCCESS,
   LIST_MY_ORDER_RESET,
   CART_RESET,
+  ADMIN_USERS_LIST_REQUEST,
+  ADMIN_USERS_LIST_SUCCESS,
+  ADMIN_USERS_LIST_FAIL,
+  ADMIN_USERS_LIST_RESET,
 } from "../types/types.js";
 
 export const register = (
@@ -159,6 +163,38 @@ export const UpdateUserProfile = (user) => async (dispatch, getState) => {
   }
 };
 
+export const getAllUsers = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_USERS_LIST_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/users`, config);
+
+    dispatch({
+      type: ADMIN_USERS_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_USERS_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 export const logout = () => async (dispatch) => {
   localStorage.removeItem("userInfo");
   localStorage.removeItem("cartItems");
@@ -169,6 +205,7 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: LIST_MY_ORDER_RESET });
   dispatch({ type: CART_RESET });
   dispatch({ type: LIST_MY_ORDER_RESET });
+  dispatch({ type: ADMIN_USERS_LIST_RESET });
 
   localStorage.removeItem("userInfo");
 };
