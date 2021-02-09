@@ -5,14 +5,15 @@ import {
   USER_LOGOUT,
   USER_PROFILE_FAIL,
   USER_PROFILE_REQUEST,
-  USER_PROFILE_RESET_FAIL,
-  USER_PROFILE_RESET_REQUEST,
-  USER_PROFILE_RESET_SUCCESS,
+  USER_PROFILE_RESET,
+  USER_PROFILE_UPDATE_FAIL,
+  USER_PROFILE_UPDATE_REQUEST,
+  USER_PROFILE_UPDATE_SUCCESS,
   USER_PROFILE_SUCCESS,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
-} from '../types/types.js';
+} from "../types/types.js";
 
 export const userLoginReducer = (state = {}, action) => {
   switch (action.type) {
@@ -30,17 +31,17 @@ export const userLoginReducer = (state = {}, action) => {
 };
 
 export const userSignUpReducer = (state = {}, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case USER_REGISTER_REQUEST:
       return { loading: true };
     case USER_REGISTER_SUCCESS:
       return { loading: false, userInfo: action.payload };
     case USER_REGISTER_FAIL:
-      return { loading: false, error: action.payload}
-      default: 
+      return { loading: false, error: action.payload };
+    default:
       return state;
   }
-}
+};
 
 export const userProfileReducer = (state = { user: {} }, action) => {
   switch (action.type) {
@@ -50,18 +51,20 @@ export const userProfileReducer = (state = { user: {} }, action) => {
       return { loading: false, user: action.payload };
     case USER_PROFILE_FAIL:
       return { loading: false, error: action.payload };
+    case USER_PROFILE_RESET:
+      return { user: {} };
     default:
       return state;
   }
 };
 
-export const userProfileResetReducer = (state = { }, action) => {
+export const userProfileResetReducer = (state = {}, action) => {
   switch (action.type) {
-    case USER_PROFILE_RESET_REQUEST:
-      return {  loading: true };
-    case USER_PROFILE_RESET_SUCCESS:
+    case USER_PROFILE_UPDATE_REQUEST:
+      return { loading: true };
+    case USER_PROFILE_UPDATE_SUCCESS:
       return { loading: false, success: true, userInfo: action.payload };
-    case USER_PROFILE_RESET_FAIL:
+    case USER_PROFILE_UPDATE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
