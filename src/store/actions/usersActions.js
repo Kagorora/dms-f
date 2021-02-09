@@ -6,13 +6,16 @@ import {
   USER_LOGOUT,
   USER_PROFILE_FAIL,
   USER_PROFILE_REQUEST,
-  USER_PROFILE_RESET_FAIL,
-  USER_PROFILE_RESET_REQUEST,
-  USER_PROFILE_RESET_SUCCESS,
+  USER_PROFILE_RESET,
+  USER_PROFILE_UPDATE_FAIL,
+  USER_PROFILE_UPDATE_REQUEST,
+  USER_PROFILE_UPDATE_SUCCESS,
   USER_PROFILE_SUCCESS,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  LIST_MY_ORDER_RESET,
+  CART_RESET,
 } from "../types/types.js";
 
 export const register = (
@@ -126,7 +129,7 @@ export const getUserProfile = (id) => async (dispatch, getState) => {
 export const UpdateUserProfile = (user) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: USER_PROFILE_RESET_REQUEST,
+      type: USER_PROFILE_UPDATE_REQUEST,
     });
 
     const {
@@ -142,12 +145,12 @@ export const UpdateUserProfile = (user) => async (dispatch, getState) => {
     const { data } = await axios.put(`/api/users/profile`, user, config);
 
     dispatch({
-      type: USER_PROFILE_RESET_SUCCESS,
+      type: USER_PROFILE_UPDATE_SUCCESS,
       payload: data,
     });
   } catch (error) {
     dispatch({
-      type: USER_PROFILE_RESET_FAIL,
+      type: USER_PROFILE_UPDATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -157,9 +160,15 @@ export const UpdateUserProfile = (user) => async (dispatch, getState) => {
 };
 
 export const logout = () => async (dispatch) => {
-  dispatch({
-    type: USER_LOGOUT,
-  });
+  localStorage.removeItem("userInfo");
+  localStorage.removeItem("cartItems");
+  localStorage.removeItem("shippingAddress");
+  localStorage.removeItem("paymentMethod");
+  dispatch({ type: USER_LOGOUT });
+  dispatch({ type: USER_PROFILE_RESET });
+  dispatch({ type: LIST_MY_ORDER_RESET });
+  dispatch({ type: CART_RESET });
+  dispatch({ type: LIST_MY_ORDER_RESET });
 
   localStorage.removeItem("userInfo");
 };

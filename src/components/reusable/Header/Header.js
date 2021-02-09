@@ -1,11 +1,11 @@
-import React from 'react';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import { Container } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
-import logo from '../../../assets/images/mainlogo.png';
-import './Header.scss';
-import { LinkContainer } from 'react-router-bootstrap';
-import { logout } from '../../../store/actions/usersActions';
+import React from "react";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import logo from "../../../assets/images/mainlogo.png";
+import "./Header.scss";
+import { LinkContainer } from "react-router-bootstrap";
+import { logout } from "../../../store/actions/usersActions";
 
 const Header = () => {
   const dispatch = new useDispatch();
@@ -32,6 +32,13 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ml-auto'>
+              {userInfo && (
+                <LinkContainer to='/myorders'>
+                  <Nav.Link>
+                    <i className='fas fa-folder'></i> Orders
+                  </Nav.Link>
+                </LinkContainer>
+              )}
               <LinkContainer to='/cart'>
                 <Nav.Link>
                   <i className='fas fa-shopping-cart'></i> Cart
@@ -43,7 +50,9 @@ const Header = () => {
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={LogoutHandler}>
-                    Logout
+                    <LinkContainer to='/'>
+                      <NavDropdown.Item>Logout</NavDropdown.Item>
+                    </LinkContainer>
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
