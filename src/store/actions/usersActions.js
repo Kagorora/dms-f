@@ -20,6 +20,12 @@ import {
   ADMIN_USERS_LIST_SUCCESS,
   ADMIN_USERS_LIST_FAIL,
   ADMIN_USERS_LIST_RESET,
+  ADMIN_UPDATE_USER_SUCCESS,
+  ADMIN_UPDATE_USER_FAIL,
+  ADMIN_UPDATE_USER_REQUEST,
+  USER_DELETE_SUCCESS,
+  USER_DELETE_FAIL,
+  USER_DELETE_REQUEST,
 } from "../types/types.js";
 
 export const register = (
@@ -187,6 +193,70 @@ export const getAllUsers = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ADMIN_USERS_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const deleteUser = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DELETE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.delete(`/api/users/${id}`, config);
+
+    dispatch({
+      type: USER_DELETE_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const editUser = (user) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_UPDATE_USER_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(`/api/users/${user._id}`, user, config);
+
+    dispatch({ type: ADMIN_UPDATE_USER_SUCCESS });
+
+    dispatch({ type: USER_PROFILE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_UPDATE_USER_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

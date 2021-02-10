@@ -3,7 +3,7 @@ import { Button, Row, Col, Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import Message from "../reusable/Message.js";
 import Loader from "../reusable/Loader.js";
-import { getAllUsers } from "../../store/actions/usersActions";
+import { getAllUsers, deleteUser } from "../../store/actions/usersActions";
 import { LinkContainer } from "react-router-bootstrap";
 
 const Users = ({ history }) => {
@@ -15,16 +15,21 @@ const Users = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const userDelete = useSelector((state) => state.userDelete);
+  const { success: successDelete } = userDelete;
+
   useEffect(() => {
     if (userInfo && userInfo.userType === "admin") {
       dispatch(getAllUsers());
     } else {
       history.push("/login");
     }
-  }, [dispatch, getAllUsers, history]);
+  }, [dispatch, userInfo, history, successDelete]);
 
   const deleteHandler = (id) => {
-    // delete
+    if (window.confirm("Are you sure?")) {
+      dispatch(deleteUser(id));
+    }
   };
 
   return (
@@ -71,7 +76,7 @@ const Users = ({ history }) => {
                       )}
                     </td>
                     <td>
-                      <LinkContainer to={`user/${user._id}/edit`}>
+                      <LinkContainer to={`/admin/user/${user._id}/edit`}>
                         <Button variant='light' className='btn-sm'>
                           <i className='fas fa-edit'></i>
                         </Button>
