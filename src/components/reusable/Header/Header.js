@@ -40,6 +40,13 @@ const Header = () => {
                 </LinkContainer>
               )}
               {userInfo && userInfo.userType === "admin" && (
+                <LinkContainer to='/admin/products'>
+                  <Nav.Link>
+                    <i className='fas fa-tools'></i> Products
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+              {userInfo && userInfo.userType === "admin" && (
                 <LinkContainer to='/admin/users'>
                   <Nav.Link>
                     <i className='fas fa-user-friends'></i> Users

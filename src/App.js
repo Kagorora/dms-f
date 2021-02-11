@@ -16,6 +16,7 @@ import Order from "./components/order/Order.js";
 import MyOrders from "./components/myOrders/MyOrders.js";
 import Users from "./components/admin/Users.js";
 import EditUserInfo from "./components/admin/EditUser.js";
+import Products from "./components/admin/Products.js";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
+          <Route path='/admin/products' component={Products} />
           <Route path='/admin/users' component={Users} />
           <Route path='/admin/user/:id/edit' component={EditUserInfo} />
           <Route path='/MyOrders' component={MyOrders} />
