@@ -35,7 +35,9 @@ const ProductDetails = ({ match, history }) => {
   return (
     <>
       <Link to='/'>
-        <Button className='btn btn-light my-3'>Go back</Button>
+        <Button className='btn my-5 rounded'>
+          <i className='fas fa-chevron-left fa-fw'></i> Go back
+        </Button>
       </Link>
 
       {loading ? (

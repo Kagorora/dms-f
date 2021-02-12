@@ -79,7 +79,7 @@ const PlaceOrder = ({ history }) => {
               <h2>Payment Method</h2>
               <p>
                 <strong>Method: </strong>
-                {paymentMethod.paymentMethod}
+                {paymentMethod}
               </p>
             </ListGroup.Item>
 

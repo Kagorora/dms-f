@@ -36,6 +36,9 @@ const Products = ({ history }) => {
     if (userInfo && userInfo.userType === "seller") {
       history.push("/login");
     }
+    if (!userInfo) {
+      history.push("/login");
+    }
     if (successCreate) {
       history.push(`/product/${createdProduct._id}/edit`);
     } else {
@@ -102,9 +105,7 @@ const Products = ({ history }) => {
                       <td>{product.category}</td>
                       <td>{product.brand}</td>
                       <td>
-                        <LinkContainer
-                          to={`/product/${product._id}/edit`}
-                        >
+                        <LinkContainer to={`/product/${product._id}/edit`}>
                           <Button variant='light' className='btn-sm'>
                             <i className='fas fa-edit fa-fw'></i>
                           </Button>

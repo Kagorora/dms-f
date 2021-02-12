@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, FormGroup } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import FormContainer from "../reusable/FormContainer.js";
@@ -19,6 +19,15 @@ const Shipping = ({ history }) => {
   const [streetNumber, setStreetNumber] = useState(
     shippingAddress.streetNumber
   );
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push("/login");
+    }
+  }, [userInfo, history]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -88,7 +97,11 @@ const Shipping = ({ history }) => {
             placeholder='enter StreetNumber'
           ></Form.Control>
         </FormGroup>
-        <Button variant='primary' type='Submit'>
+        <Button
+          variant='primary'
+          type='Submit'
+          className='btn btn-block rounded'
+        >
           Submit
         </Button>
       </Form>

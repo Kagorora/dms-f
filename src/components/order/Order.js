@@ -13,7 +13,7 @@ import {
 import Loader from "../reusable/Loader.js";
 import { ORDER_PAY_RESET } from "../../store/types/types";
 
-const Order = ({ match }) => {
+const Order = ({ match, history }) => {
   const orderId = match.params.id;
 
   const [sdkReady, setSdkReady] = useState(false);
@@ -46,6 +46,12 @@ const Order = ({ match }) => {
       order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
     );
   }
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push("/login");
+    }
+  }, [userInfo, history]);
 
   useEffect(() => {
     if (successDelivered) {
@@ -225,7 +231,9 @@ const Order = ({ match }) => {
                 )}
                 {!successDelivered &&
                   userInfo &&
-                  userInfo.userType === "admin" && (
+                  userInfo.userType === "admin" &&
+                  order.isPaid &&
+                  !order.isDelivered && (
                     <ListGroup.Item>
                       <Button
                         type='button'

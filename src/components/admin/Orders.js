@@ -6,15 +6,22 @@ import Loader from "../reusable/Loader.js";
 import { listOrders } from "../../store/actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
 
-const Orders = () => {
+const Orders = ({ history }) => {
   const dispatch = useDispatch();
 
   const adminOrder = useSelector((state) => state.adminOrder);
   const { loading, error, orders } = adminOrder;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
-    dispatch(listOrders());
-  }, [dispatch]);
+    if (userInfo && userInfo.userType === "admin") {
+      dispatch(listOrders());
+    } else {
+      history.push("/login");
+    }
+  }, [dispatch, history, userInfo]);
 
   return (
     <div className='justify-content-center'>
