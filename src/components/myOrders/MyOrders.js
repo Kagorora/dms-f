@@ -6,11 +6,20 @@ import Loader from "../reusable/Loader.js";
 import { listMyOrders } from "../../store/actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
 
-const MyOrders = () => {
+const MyOrders = ({ history }) => {
   const dispatch = useDispatch();
 
   const orderMyList = useSelector((state) => state.orderMyList);
   const { loading: loadingOrders, error: errorOrders, orders } = orderMyList;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push("/login");
+    }
+  }, [userInfo, history]);
 
   useEffect(() => {
     dispatch(listMyOrders());
@@ -59,7 +68,7 @@ const MyOrders = () => {
                     </td>
                     <td>
                       {order.isDelivered ? (
-                        order.Delivered.substring(0, 10)
+                        order.deliveredAt.substring(0, 10)
                       ) : (
                         <i
                           className='fas fa-times fa-fw'
@@ -68,7 +77,7 @@ const MyOrders = () => {
                       )}
                     </td>
                     <td>
-                      <LinkContainer to={`/orders/${order._id}`}>
+                      <LinkContainer to={`/order/${order._id}`}>
                         <Button variant='light' className='btn-sm'>
                           Details
                         </Button>

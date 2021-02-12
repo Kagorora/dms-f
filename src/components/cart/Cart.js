@@ -109,6 +109,7 @@ const Cart = ({ match, location, history }) => {
                 type='button'
                 className='btn-block rounded'
                 onClick={checkoutHandler}
+                disabled={cartItems.length == 0}
               >
                 Proceed to Checkout
               </Button>

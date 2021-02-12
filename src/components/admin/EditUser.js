@@ -27,9 +27,7 @@ const EditUserInfo = ({ match, history }) => {
   const { loading, error, user } = userProfile;
 
   const updateUser = useSelector((state) => state.updateUser);
-  const {
-    success: successUpdate,
-  } = updateUser;
+  const { success: successUpdate } = updateUser;
 
   useEffect(() => {
     if (!user.name || user._id !== userId) {
@@ -68,7 +66,9 @@ const EditUserInfo = ({ match, history }) => {
 
   return (
     <>
-      <Button onClick={resetUserResultHanlder}>Go Back</Button>
+      <Button onClick={resetUserResultHanlder} className='rounded'>
+        <i className='fas fa-chevron-left fa-fw'></i> Go Back
+      </Button>
       <FormContainer>
         <h1>UPDATE USER</h1>
         {loading ? (
