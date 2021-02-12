@@ -65,12 +65,12 @@ const Users = ({ history }) => {
                     <td>
                       {user.userType === "admin" ? (
                         <i
-                          className='fas fa-check'
+                          className='fas fa-check fa-fw'
                           style={{ color: "green" }}
                         ></i>
                       ) : (
                         <i
-                          className='fas fa-times'
+                          className='fas fa-times fa-fw'
                           style={{ color: "red" }}
                         ></i>
                       )}
@@ -78,7 +78,7 @@ const Users = ({ history }) => {
                     <td>
                       <LinkContainer to={`/admin/user/${user._id}/edit`}>
                         <Button variant='light' className='btn-sm'>
-                          <i className='fas fa-edit'></i>
+                          <i className='fas fa-edit fa-fw'></i>
                         </Button>
                       </LinkContainer>
                       <Button
@@ -86,7 +86,7 @@ const Users = ({ history }) => {
                         className='btn-sm'
                         onClick={() => deleteHandler(user._id)}
                       >
-                        <i className='fas fa-trash'></i>
+                        <i className='fas fa-trash fa-fw'></i>
                       </Button>
                     </td>
                   </tr>

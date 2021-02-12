@@ -13,6 +13,15 @@ import {
   LIST_MY_ORDER_SUCCESS,
   LIST_MY_ORDER_FAIL,
   LIST_MY_ORDER_RESET,
+  ADMIN_LIST_ORDERS_REQUEST,
+  ADMIN_LIST_ORDERS_SUCCESS,
+  ADMIN_LIST_ORDERS_FAIL,
+  ADMIN_LIST_ORDERS_RESET,
+  ORDER_DETAILS_RESET,
+  MARK_ORDER_DELIVERED_REQUEST,
+  MARK_ORDER_DELIVERED_SUCCESS,
+  MARK_ORDER_DELIVERED_FAIL,
+  MARK_ORDER_DELIVERED_RESET,
 } from "../types/types.js";
 
 export const orderCreateReducer = (state = {}, action) => {
@@ -57,6 +66,12 @@ export const orderDetailsReducer = (
       return {
         loading: false,
         error: action.payload,
+      };
+
+    case ORDER_DETAILS_RESET:
+      return {
+        orderItems: [],
+        shippingAddress: {},
       };
 
     default:
@@ -109,6 +124,58 @@ export const orderMyListReducer = (state = { orders: [] }, action) => {
       return {
         orders: [],
       };
+
+    default:
+      return state;
+  }
+};
+
+export const adminOrderReducer = (state = { orders: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_LIST_ORDERS_REQUEST:
+      return {
+        loading: true,
+      };
+    case ADMIN_LIST_ORDERS_SUCCESS:
+      return {
+        loading: false,
+        orders: action.payload,
+      };
+    case ADMIN_LIST_ORDERS_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    case ADMIN_LIST_ORDERS_RESET:
+      return {
+        orders: [],
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const deliverOrderReducer = (state = {}, action) => {
+  switch (action.type) {
+    case MARK_ORDER_DELIVERED_REQUEST:
+      return {
+        loading: true,
+      };
+    case MARK_ORDER_DELIVERED_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case MARK_ORDER_DELIVERED_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    case MARK_ORDER_DELIVERED_RESET:
+      return {};
 
     default:
       return state;

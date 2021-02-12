@@ -3,33 +3,34 @@ import { Button, Row, Col, Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import Message from "../reusable/Message.js";
 import Loader from "../reusable/Loader.js";
-import { listMyOrders } from "../../store/actions/orderActions";
+import { listOrders } from "../../store/actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
 
-const MyOrders = () => {
+const Orders = () => {
   const dispatch = useDispatch();
 
-  const orderMyList = useSelector((state) => state.orderMyList);
-  const { loading: loadingOrders, error: errorOrders, orders } = orderMyList;
+  const adminOrder = useSelector((state) => state.adminOrder);
+  const { loading, error, orders } = adminOrder;
 
   useEffect(() => {
-    dispatch(listMyOrders());
+    dispatch(listOrders());
   }, [dispatch]);
 
   return (
     <div className='justify-content-center'>
       <Row>
         <Col>
-          <h2>Products</h2>
-          {loadingOrders ? (
+          <h2>All Orders</h2>
+          {loading ? (
             <Loader />
-          ) : errorOrders ? (
-            <Message variant='danger'>{errorOrders}</Message>
+          ) : error ? (
+            <Message variant='danger'>{error}</Message>
           ) : (
             <Table stripped bordered hover responsive className='table-sm'>
               <thead>
                 <tr>
                   <th>Id</th>
+                  <th>User</th>
                   <th>Date</th>
                   <th>Total</th>
                   <th>Paid</th>
@@ -41,6 +42,9 @@ const MyOrders = () => {
                 {orders.map((order) => (
                   <tr key={order._id}>
                     <td>{order._id}</td>
+                    <td>
+                      <p>{order.user.name}</p>
+                    </td>
                     <td>
                       <p>
                         {order.paidAt ? order.paidAt.substring(0, 10) : "N/A"}
@@ -59,7 +63,7 @@ const MyOrders = () => {
                     </td>
                     <td>
                       {order.isDelivered ? (
-                        order.Delivered.substring(0, 10)
+                        order.deliveredAt.substring(0, 10)
                       ) : (
                         <i
                           className='fas fa-times fa-fw'
@@ -68,7 +72,7 @@ const MyOrders = () => {
                       )}
                     </td>
                     <td>
-                      <LinkContainer to={`/orders/${order._id}`}>
+                      <LinkContainer to={`/order/${order._id}`}>
                         <Button variant='light' className='btn-sm'>
                           Details
                         </Button>
@@ -85,4 +89,4 @@ const MyOrders = () => {
   );
 };
 
-export default MyOrders;
+export default Orders;

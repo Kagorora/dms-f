@@ -12,6 +12,12 @@ import {
   LIST_MY_ORDER_REQUEST,
   LIST_MY_ORDER_SUCCESS,
   LIST_MY_ORDER_FAIL,
+  ADMIN_LIST_ORDERS_REQUEST,
+  ADMIN_LIST_ORDERS_SUCCESS,
+  ADMIN_LIST_ORDERS_FAIL,
+  MARK_ORDER_DELIVERED_REQUEST,
+  MARK_ORDER_DELIVERED_SUCCESS,
+  MARK_ORDER_DELIVERED_FAIL,
 } from "../types/types.js";
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -143,6 +149,71 @@ export const listMyOrders = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: LIST_MY_ORDER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const listOrders = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_LIST_ORDERS_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/orders`, config);
+
+    dispatch({
+      type: ADMIN_LIST_ORDERS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_LIST_ORDERS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const markOrderAsDelivered = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: MARK_ORDER_DELIVERED_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/orders/${id}/deliver`, {}, config);
+
+    dispatch({
+      type: MARK_ORDER_DELIVERED_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: MARK_ORDER_DELIVERED_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
