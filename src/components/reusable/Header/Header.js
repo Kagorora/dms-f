@@ -6,6 +6,7 @@ import logo from "../../../assets/images/mainlogo.png";
 import "./Header.scss";
 import { LinkContainer } from "react-router-bootstrap";
 import { logout } from "../../../store/actions/usersActions";
+import { CART_RESET, ORDER_DETAILS_RESET } from "../../../store/types/types.js";
 
 const Header = () => {
   const dispatch = new useDispatch();
@@ -16,6 +17,8 @@ const Header = () => {
 
   const LogoutHandler = () => {
     dispatch(logout());
+    dispatch({ type: { CART_RESET } });
+    dispatch({ type: { ORDER_DETAILS_RESET } });
   };
 
   return (
@@ -35,27 +38,34 @@ const Header = () => {
               {userInfo && (
                 <LinkContainer to='/myorders'>
                   <Nav.Link>
-                    <i className='fas fa-folder'></i> Orders
+                    <i className='fas fa-folder fa-fw'></i> Orders
                   </Nav.Link>
                 </LinkContainer>
               )}
               {userInfo && userInfo.userType === "admin" && (
                 <LinkContainer to='/admin/products'>
                   <Nav.Link>
-                    <i className='fas fa-tools'></i> Products
+                    <i className='fas fa-tools fa-fw'></i> Products
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+              {userInfo && userInfo.userType === "admin" && (
+                <LinkContainer to='/admin/orders'>
+                  <Nav.Link>
+                    <i class='fas fa-truck fa-fw'></i> All Orders
                   </Nav.Link>
                 </LinkContainer>
               )}
               {userInfo && userInfo.userType === "admin" && (
                 <LinkContainer to='/admin/users'>
                   <Nav.Link>
-                    <i className='fas fa-user-friends'></i> Users
+                    <i className='fas fa-user-friends fa-fw'></i> Users
                   </Nav.Link>
                 </LinkContainer>
               )}
               <LinkContainer to='/cart'>
                 <Nav.Link>
-                  <i className='fas fa-shopping-cart'></i> Cart
+                  <i className='fas fa-shopping-cart fa-fw'></i> Cart
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
@@ -72,7 +82,7 @@ const Header = () => {
               ) : (
                 <LinkContainer to='/login'>
                   <Nav.Link>
-                    <i className='fas fa-user'></i> Login
+                    <i className='fas fa-user fa-fw'></i> Login
                   </Nav.Link>
                 </LinkContainer>
               )}

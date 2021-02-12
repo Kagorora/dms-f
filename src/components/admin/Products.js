@@ -1,16 +1,26 @@
 import React, { useEffect } from "react";
 import { Button, Row, Col, Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 import Message from "../reusable/Message.js";
 import Loader from "../reusable/Loader.js";
 import {
   listProducts,
   deleteProduct,
+  createProduct,
 } from "../../store/actions/productsActions";
-import { LinkContainer } from "react-router-bootstrap";
+import { CREATE_PRODUCT_RESET } from "../../store/types/types.js";
 
 const Products = ({ history }) => {
   const dispatch = useDispatch();
+
+  const productCreate = useSelector((state) => state.productCreate);
+  const {
+    success: successCreate,
+    loading: loadingCreate,
+    error: errorCreate,
+    product: createdProduct,
+  } = productCreate;
 
   const productsList = useSelector((state) => state.productsList);
   const { products, loading, error } = productsList;
@@ -22,12 +32,16 @@ const Products = ({ history }) => {
   const { success: successDelete } = productDelete;
 
   useEffect(() => {
-    if (userInfo && userInfo.userType === "admin") {
-      dispatch(listProducts());
-    } else {
+    dispatch({ type: CREATE_PRODUCT_RESET });
+    if (userInfo && userInfo.userType === "seller") {
       history.push("/login");
     }
-  }, [dispatch, userInfo, history, successDelete]);
+    if (successCreate) {
+      history.push(`/product/${createdProduct._id}/edit`);
+    } else {
+      dispatch(listProducts());
+    }
+  }, [dispatch, userInfo, history, successDelete, successCreate]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -36,7 +50,7 @@ const Products = ({ history }) => {
   };
 
   const createProductHandler = () => {
-    //
+    dispatch(createProduct());
   };
 
   return (
@@ -45,8 +59,12 @@ const Products = ({ history }) => {
         <Col>
           {loading ? (
             <Loader />
+          ) : loadingCreate ? (
+            <Loader />
           ) : error ? (
             <Message variant='danger'>{error}</Message>
+          ) : errorCreate ? (
+            <Message variant='danger'>{errorCreate}</Message>
           ) : (
             <>
               <Row className='align-items-center'>
@@ -58,7 +76,7 @@ const Products = ({ history }) => {
                     className='my-3 rounded'
                     onClick={createProductHandler}
                   >
-                    <i className='fas fa-plus-circle'></i> Add Products
+                    <i className='fas fa-plus-circle fa-fw'></i> Add Products
                   </Button>
                 </Col>
               </Row>
@@ -85,10 +103,10 @@ const Products = ({ history }) => {
                       <td>{product.brand}</td>
                       <td>
                         <LinkContainer
-                          to={`/admin/product/${product._id}/edit`}
+                          to={`/product/${product._id}/edit`}
                         >
                           <Button variant='light' className='btn-sm'>
-                            <i className='fas fa-edit'></i>
+                            <i className='fas fa-edit fa-fw'></i>
                           </Button>
                         </LinkContainer>
                         <Button
@@ -96,7 +114,7 @@ const Products = ({ history }) => {
                           className='btn-sm'
                           onClick={() => deleteHandler(product._id)}
                         >
-                          <i className='fas fa-trash'></i>
+                          <i className='fas fa-trash fa-fw'></i>
                         </Button>
                       </td>
                     </tr>
