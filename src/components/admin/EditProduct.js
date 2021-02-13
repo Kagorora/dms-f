@@ -185,6 +185,8 @@ const EditProduct = ({ match, history }) => {
           <FormGroup>
             <Form.Label>description</Form.Label>
             <Form.Control
+              as='textarea'
+              row='3'
               onChange={(e) => setDescription(e.target.value)}
               value={description}
               placeholder='enter description'
