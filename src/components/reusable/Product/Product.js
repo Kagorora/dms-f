@@ -19,7 +19,7 @@ const Product = ({ product }) => {
           <div className='my-3'>
             <Rating
               rating={product.rating}
-              numReview={`| Reviews ${product.numReviews}`}
+              numReview={`| Reviews ${product.reviews.length}`}
               color='#f8e825'
             />
           </div>

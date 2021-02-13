@@ -17,6 +17,10 @@ import {
   UPDATE_PRODUCT_FAIL,
   UPDATE_PRODUCT_RESET,
   PRODUCT_DETAILS_RESET,
+  CREATE_REVIEW_REQUEST,
+  CREATE_REVIEW_RESET,
+  CREATE_REVIEW_SUCCESS,
+  CREATE_REVIEW_FAIL,
 } from "../types/types.js";
 
 export const productListReducer = (state = { products: [] }, action) => {
@@ -92,6 +96,21 @@ export const productUpdateReducer = (state = { product: {} }, action) => {
       return {
         product: {},
       };
+    default:
+      return state;
+  }
+};
+
+export const createProductReviewReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CREATE_REVIEW_REQUEST:
+      return { loading: true };
+    case CREATE_REVIEW_SUCCESS:
+      return { loading: false, success: true };
+    case CREATE_REVIEW_FAIL:
+      return { loading: false, error: action.payload };
+    case CREATE_REVIEW_RESET:
+      return {};
     default:
       return state;
   }
