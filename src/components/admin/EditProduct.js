@@ -131,7 +131,7 @@ const EditProduct = ({ match, history }) => {
             ></Form.Control>
           </FormGroup>
           <FormGroup>
-            <Form.Label>PRICE</Form.Label>
+            <Form.Label>PRICE / FRW</Form.Label>
             <Form.Control
               onChange={(e) => setPrice(e.target.value)}
               value={price}
