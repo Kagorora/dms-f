@@ -6,15 +6,18 @@ import { listProducts } from "../../store/actions/productsActions";
 import Loader from "../reusable/Loader.js";
 import Message from "../reusable/Message.js";
 
-const Buyer = () => {
+const Buyer = ({ match }) => {
+
+  const keyword = match.params.keyword;
+
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productsList);
   const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>
