@@ -38,7 +38,7 @@ const Register = ({ history, location }) => {
         if (password !== confirmPassword) {
             setMessage('passwords are not matching!, try again');
         }
-        dispatch(register(name, phoneNumber, email, nationalId, location = address, userType, password))
+        dispatch(register(name, phoneNumber, nationalId, email, userType, password))
     }
 
     return (
@@ -65,10 +65,6 @@ const Register = ({ history, location }) => {
                     <Form.Control type='email' onChange={(e) => setEmail(e.target.value)} value={email} placeholder='enter email'></Form.Control>
                 </FormGroup>
                 <FormGroup>
-                    <Form.Label>location</Form.Label>
-                    <Form.Control onChange={(e) => setAddress(e.target.value)} value={address} placeholder='enter Location'></Form.Control>
-                </FormGroup>
-                <FormGroup>
                     <Form.Label>user Type</Form.Label>
                     <Form.Control
                         as='select'
@@ -77,6 +73,7 @@ const Register = ({ history, location }) => {
                             setUserType(e.target.value)
                         }
                     >
+                         <option selected value="">Select User Type</option>
                         <option>
                             buyer
                         </option>
