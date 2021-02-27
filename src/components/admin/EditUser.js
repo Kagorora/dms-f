@@ -64,9 +64,6 @@ const EditUserInfo = ({ match, history }) => {
     history.push("/admin/users");
   };
 
-
-  console.log('@@@@@@@@@@@@@@', user);
-
   return (
     <>
       <Button onClick={resetUserResultHanlder} className='rounded'>
