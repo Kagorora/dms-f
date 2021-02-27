@@ -8,8 +8,8 @@ import { CART_RESET, ORDER_DETAILS_RESET } from "../../../store/types/types.js";
 
 const Header = () => {
   const dispatch = useDispatch();
+  
   const userLogin = useSelector((state) => state.userLogin);
-
   const { userInfo } = userLogin;
 
   const logoutHandler = () => {

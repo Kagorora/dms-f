@@ -73,8 +73,7 @@ const initialState = {
     shippingAddress: shippingAddressFromStorage,
     paymentMethod: paymentMethodFromStorage,
   },
-  userLogin: { userInfo: userInfoFromStrorage },
-  userRegister: { userInfo: userInfoFromStrorage },
+  userLogin: { userInfo: userInfoFromStrorage }
 };
 
 const middleware = [thunk];

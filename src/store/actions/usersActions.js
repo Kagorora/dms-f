@@ -31,11 +31,10 @@ import {
 export const register = (
   name,
   phoneNumber,
-  password,
-  email,
   nationalId,
+  email,
   userType,
-  location
+  password
 ) => async (dispatch) => {
   try {
     dispatch({
@@ -49,12 +48,17 @@ export const register = (
     };
     const { data } = await axios.post(
       "/api/users/signup",
-      { name, phoneNumber, password, email, nationalId, userType, location },
+      { name, phoneNumber, nationalId, email, userType, password },
       config
     );
 
     dispatch({
       type: USER_REGISTER_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
       payload: data,
     });
 
