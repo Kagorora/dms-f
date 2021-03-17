@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FormGroup, Form, Button, Row, Col } from "react-bootstrap";
+import { FormGroup, Form, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getUserProfile,
@@ -7,6 +7,7 @@ import {
 } from "../../store/actions/usersActions.js";
 import Message from "../reusable/Message.js";
 import Loader from "../reusable/Loader.js";
+import FormContainer from '../reusable/FormContainer.js';
 
 const Profile = ({ history }) => {
   const dispatch = new useDispatch();
@@ -68,8 +69,8 @@ const Profile = ({ history }) => {
   };
 
   return (
-    <Row>
-      <Col md={3}>
+    <FormContainer>
+      {/* <Col md={8}> */}
         <h2>User Profile</h2>
         {loading && <Loader />}
         {error && <Message variant='danger'>{error}</Message>}
@@ -148,11 +149,8 @@ const Profile = ({ history }) => {
             Update
           </Button>
         </Form>
-      </Col>
-      <Col md={9}>
-        <h2>My Orders</h2>
-      </Col>
-    </Row>
+      {/* </Col> */}
+    </FormContainer>
   );
 };
 

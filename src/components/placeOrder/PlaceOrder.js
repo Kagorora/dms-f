@@ -107,7 +107,7 @@ const PlaceOrder = ({ history }) => {
                         </Col>
                         <Col md={4}>
                           {item.qty} * {item.price} = FRW
-                          {item.qty * item.price}
+                          `${addDecimals(item.qty * item.price)}`
                         </Col>
                       </Row>
                     </ListGroup.Item>

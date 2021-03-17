@@ -36,7 +36,7 @@ const Header = () => {
                 </Nav.Link>
               </LinkContainer>
 
-              {userInfo && (
+              {userInfo && userInfo.userType !== "admin" &&(
                 <LinkContainer to='/myorders' className='mr-2'>
                   <Nav.Link>
                     <i className='fas fa-folder fa-fw'></i> My Orders
