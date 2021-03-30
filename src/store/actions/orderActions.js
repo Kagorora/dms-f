@@ -18,6 +18,9 @@ import {
   MARK_ORDER_DELIVERED_REQUEST,
   MARK_ORDER_DELIVERED_SUCCESS,
   MARK_ORDER_DELIVERED_FAIL,
+  ADMIN_FILTER_ORDERS_BY_DATES_REQUEST,
+  ADMIN_FILTER_ORDERS_BY_DATES_SUCCESS,
+  ADMIN_FILTER_ORDERS_BY_DATES_FAIL
 } from "../types/types.js";
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -181,6 +184,39 @@ export const listOrders = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ADMIN_LIST_ORDERS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const filterOrdersByDate = (fromDate, toDate) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_DATES_REQUEST,
+    });
+    
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/orders/timeframe/${fromDate}/${toDate}`, config);
+
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_DATES_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_DATES_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

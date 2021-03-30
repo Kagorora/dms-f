@@ -22,6 +22,9 @@ import {
   MARK_ORDER_DELIVERED_SUCCESS,
   MARK_ORDER_DELIVERED_FAIL,
   MARK_ORDER_DELIVERED_RESET,
+  ADMIN_FILTER_ORDERS_BY_DATES_SUCCESS,
+  ADMIN_FILTER_ORDERS_BY_DATES_REQUEST,
+  ADMIN_FILTER_ORDERS_BY_DATES_FAIL,
 } from "../types/types.js";
 
 export const orderCreateReducer = (state = {}, action) => {
@@ -123,6 +126,28 @@ export const orderMyListReducer = (state = { orders: [] }, action) => {
     case LIST_MY_ORDER_RESET:
       return {
         orders: [],
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const orderFilterByDateReducer = (state = { orders: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_FILTER_ORDERS_BY_DATES_REQUEST:
+      return {
+        loading: true,
+      };
+    case ADMIN_FILTER_ORDERS_BY_DATES_SUCCESS:
+      return {
+        loading: false,
+        orders: action.payload,
+      };
+    case ADMIN_FILTER_ORDERS_BY_DATES_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
       };
 
     default:

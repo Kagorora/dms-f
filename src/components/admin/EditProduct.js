@@ -58,6 +58,31 @@ const EditProduct = ({ match, history }) => {
     }
   }, [dispatch, history, product, productId, successUpdate]);
 
+  const goBackHandler = () => {
+    dispatch({ type: UPDATE_PRODUCT_RESET });
+    dispatch({ type: CREATE_PRODUCT_RESET });
+    dispatch({ type: PRODUCT_DETAILS_RESET });
+    history.push("/admin/products");
+  };
+
+  const handleImageUpload = async (e) => {
+    const { files } = e.target;
+    const data = new FormData();
+    data.append('file', files[0]);
+    data.append('upload_preset', 'miv0xetk');
+
+    const res = await fetch(
+      'https://api.cloudinary.com/v1_1/kagororacloud/image/upload',
+      {
+        method: 'POST',
+        body: data,
+      }
+    );
+
+    const file = await res.json();
+    setImage(file.secure_url);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
@@ -72,34 +97,6 @@ const EditProduct = ({ match, history }) => {
         category,
       })
     );
-  };
-
-  const goBackHandler = () => {
-    dispatch({ type: UPDATE_PRODUCT_RESET });
-    dispatch({ type: CREATE_PRODUCT_RESET });
-    dispatch({ type: PRODUCT_DETAILS_RESET });
-    history.push("/admin/products");
-  };
-
-  const uploadFileHandler = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("image", file);
-    setUploading(true);
-
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-
-      const { data } = await axios.post("/api/upload", formData, config);
-      setImage(data);
-      setUploading(false);
-    } catch (error) {
-      setUploading(false);
-    }
   };
 
   return (
@@ -149,7 +146,7 @@ const EditProduct = ({ match, history }) => {
               id='image-file'
               label='Upload Image'
               custom
-              onChange={uploadFileHandler}
+              onChange={handleImageUpload}
             >
               {uploading && <Loader />}
             </Form.File>
