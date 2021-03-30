@@ -26,6 +26,7 @@ import {
   orderMyListReducer,
   adminOrderReducer,
   deliverOrderReducer,
+  orderFilterByDateReducer
 } from "./store/reducers/orderReducers.js";
 
 const reducer = combineReducers({
@@ -49,6 +50,7 @@ const reducer = combineReducers({
   adminOrder: adminOrderReducer,
   deliverOrder: deliverOrderReducer,
   createProductReview: createProductReviewReducer,
+  orderFilterByDate: orderFilterByDateReducer
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")

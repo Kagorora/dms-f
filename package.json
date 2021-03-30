@@ -1,6 +1,6 @@
 {
   "name": "dms-f",
-  "proxy": "https://dms-back-end.herokuapp.com",
+  "proxy": "http://127.0.0.1:5000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,6 +9,9 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.3",
+    "cloudinary": "^1.25.1",
+    "multer": "^1.4.2",
+    "multer-storage-cloudinary": "^4.0.0",
     "node-sass": "4.14.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
