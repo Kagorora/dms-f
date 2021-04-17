@@ -5,6 +5,7 @@ import Message from "../reusable/Message.js";
 import Loader from "../reusable/Loader.js";
 import { listMyOrders } from "../../store/actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
+import { ExportCSV } from "../admin/exportCvs.js";
 
 const MyOrders = ({ history }) => {
   const dispatch = useDispatch();
@@ -90,6 +91,11 @@ const MyOrders = ({ history }) => {
           )}
         </Col>
       </Row>
+            {orders && orders.length > 0 ? (
+              <ExportCSV csvData={orders} fileName={"Report"} />
+            ) : (
+              ""
+            )}
     </div>
   );
 };
