@@ -25,6 +25,9 @@ import {
   ADMIN_FILTER_ORDERS_BY_DATES_SUCCESS,
   ADMIN_FILTER_ORDERS_BY_DATES_REQUEST,
   ADMIN_FILTER_ORDERS_BY_DATES_FAIL,
+  ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_SUCCESS,
+  ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_REQUEST,
+  ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_FAIL,
 } from "../types/types.js";
 
 export const orderCreateReducer = (state = {}, action) => {
@@ -145,6 +148,28 @@ export const orderFilterByDateReducer = (state = { orders: [] }, action) => {
         orders: action.payload,
       };
     case ADMIN_FILTER_ORDERS_BY_DATES_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const orderFilterByPaymentMethodReducer = (state = { orders: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_REQUEST:
+      return {
+        loading: true,
+      };
+    case ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_SUCCESS:
+      return {
+        loading: false,
+        orders: action.payload,
+      };
+    case ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_FAIL:
       return {
         loading: false,
         error: action.payload,

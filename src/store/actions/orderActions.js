@@ -20,7 +20,10 @@ import {
   MARK_ORDER_DELIVERED_FAIL,
   ADMIN_FILTER_ORDERS_BY_DATES_REQUEST,
   ADMIN_FILTER_ORDERS_BY_DATES_SUCCESS,
-  ADMIN_FILTER_ORDERS_BY_DATES_FAIL
+  ADMIN_FILTER_ORDERS_BY_DATES_FAIL,
+  ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_REQUEST,
+  ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_SUCCESS,
+  ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_FAIL
 } from "../types/types.js";
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -217,6 +220,39 @@ export const filterOrdersByDate = (fromDate, toDate) => async (dispatch, getStat
   } catch (error) {
     dispatch({
       type: ADMIN_FILTER_ORDERS_BY_DATES_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const filterOrdersPaymentMethod = (paymentMethod) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_REQUEST,
+    });
+    
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/orders/sortOrdersByPaymentMethod/${paymentMethod}`, config);
+
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -23,6 +23,7 @@ const Payment = ({ history }) => {
     history.push("/placeOrder");
   };
 
+
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 step3 />
@@ -42,13 +43,23 @@ const Payment = ({ history }) => {
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
           </Col>
-          <Col>
+          {/* <Col>
             <Form.Check
               type='radio'
               label='MOMO'
               name='paymentMethod'
               value='MOMO'
               id='MOMO'
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            ></Form.Check>
+          </Col> */}
+          <Col>
+            <Form.Check
+              type='radio'
+              label='LOAN'
+              name='paymentMethod'
+              value='LOAN'
+              id='LOAN'
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
           </Col>
