@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, Row, Col, Table, Form } from "react-bootstrap";
+import { Button, Row, Col, Table, Form, FormGroup } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import Message from "../reusable/Message.js";
 import Loader from "../reusable/Loader.js";
-import { listOrders, filterOrdersByDate } from "../../store/actions/orderActions";
+import { listOrders, filterOrdersByDate, filterOrdersPaymentMethod } from "../../store/actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
 
 const Orders = ({ history }) => {
@@ -11,7 +11,11 @@ const Orders = ({ history }) => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
 
+  const [paymentMethod, setPaymentMethod] = useState('');
+
   const [list, setList] = useState([]);
+
+  const [sortedData, setSortedData] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -22,10 +26,13 @@ const Orders = ({ history }) => {
 
 
   const orderFilterByDate = useSelector((state) => state.orderFilterByDate);
-  const { orders: filteredOrders, loading: filterLoader }  = orderFilterByDate;
+  const { orders: filteredOrders, loading: filterLoader } = orderFilterByDate;
+
+  const orderFilterByPaymentMethod = useSelector((state) => state.orderFilterByPaymentMethod);
+  const { orders: OrdersfilteredByPaymentMethod, loading: OrdersfilteredByPaymentMethodLoader } = orderFilterByPaymentMethod;
 
   useEffect(() => {
-    if(orders){
+    if (orders) {
       setList(orders);
     }
   }, [orders]);
@@ -44,16 +51,29 @@ const Orders = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if(fromDate && toDate){
+    if (fromDate && toDate) {
       dispatch(filterOrdersByDate(fromDate, toDate));
     }
   }
 
   useEffect(() => {
-    if(filteredOrders){
+    if (filteredOrders) {
       setList(filteredOrders);
     }
   }, [filteredOrders])
+
+  const handleByPaymentMethod = (e) => {
+    e.preventDefault();
+    if (paymentMethod) {
+      dispatch(filterOrdersPaymentMethod(paymentMethod))
+    }
+  };
+
+  useEffect(() => {
+    if (OrdersfilteredByPaymentMethod) {
+      setList(OrdersfilteredByPaymentMethod)
+    }
+  }, [OrdersfilteredByPaymentMethod])
 
 
   return (
@@ -79,9 +99,33 @@ const Orders = ({ history }) => {
                 </Form.Group>
               </Col>
               <Col md={4}>
-                <Button type='submit' variant='primary' className='btn-block mb-0 mt-4 rounded'>
+                <Button type='submit' variant='primary' className='btn mb-0 mt-4 rounded'>
                   Search
           </Button>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={4}>
+                <FormGroup controlId='toDate'>
+                  <Form.Label>Payment Method</Form.Label>
+                  <Form.Control
+                    as='select'
+                    value={paymentMethod}
+                    onChange={(e) =>
+                      setPaymentMethod(e.target.value)
+                    }
+
+                  >
+                    <option>LOAN</option>
+                    <option>PayPal</option>
+                  </Form.Control>
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <Button type='submit' variant='primary' className='btn mb-0 mt-4 rounded' onClick={handleByPaymentMethod}>
+                  Sort
+                </Button>
               </Col>
             </Row>
 
@@ -95,7 +139,7 @@ const Orders = ({ history }) => {
             <Table stripped bordered hover responsive className='table-sm'>
               <thead>
                 <tr>
-                  <th>Id</th>
+                  <th>Payment Method</th>
                   <th>User</th>
                   <th>Date</th>
                   <th>Total</th>
@@ -106,47 +150,49 @@ const Orders = ({ history }) => {
               </thead>
               <tbody>
                 {
-                 list.map((order) => (
-                  <tr key={order._id}>
-                    <td>{order._id}</td>
-                    <td>
-                      <p>{order.user.name}</p>
-                    </td>
-                    <td>
-                      <p>
-                        {order.paidAt ? order.paidAt.substring(0, 10) : "N/A"}
-                      </p>
-                    </td>
-                    <td>FRW {order.totalPrice}</td>
-                    <td>
-                      {order.isPaid ? (
-                        order.paidAt.substring(0, 10)
-                      ) : (
-                        <i
-                          className='fas fa-times fa-fw'
-                          style={{ color: "red" }}
-                        ></i>
-                      )}
-                    </td>
-                    <td>
-                      {order.isDelivered ? (
-                        order.deliveredAt.substring(0, 10)
-                      ) : (
-                        <i
-                          className='fas fa-times fa-fw'
-                          style={{ color: "red" }}
-                        ></i>
-                      )}
-                    </td>
-                    <td>
-                      <LinkContainer to={`/order/${order._id}`}>
-                        <Button variant='light' className='btn-sm'>
-                          Details
+                  list.map((order) => (
+                    <tr key={order._id}>
+                      <td>
+                        <p>{order.paymentMethod}</p>
+                      </td>
+                      <td>
+                        <p>{order.user.name}</p>
+                      </td>
+                      <td>
+                        <p>
+                          {order.paidAt ? order.paidAt.substring(0, 10) : "N/A"}
+                        </p>
+                      </td>
+                      <td>FRW {order.totalPrice}</td>
+                      <td>
+                        {order.isPaid ? (
+                          order.paidAt.substring(0, 10)
+                        ) : (
+                          <i
+                            className='fas fa-times fa-fw'
+                            style={{ color: "red" }}
+                          ></i>
+                        )}
+                      </td>
+                      <td>
+                        {order.isDelivered ? (
+                          order.deliveredAt.substring(0, 10)
+                        ) : (
+                          <i
+                            className='fas fa-times fa-fw'
+                            style={{ color: "red" }}
+                          ></i>
+                        )}
+                      </td>
+                      <td>
+                        <LinkContainer to={`/order/${order._id}`}>
+                          <Button variant='dark' className='btn-sm rounded'>
+                            Details
                         </Button>
-                      </LinkContainer>
-                    </td>
-                  </tr>
-                ))}
+                        </LinkContainer>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </Table>
           )}

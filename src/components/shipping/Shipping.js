@@ -46,8 +46,6 @@ const Shipping = ({ history }) => {
     history.push("/payment");
   };
 
-  console.log('!!!!!!!!!!!!!!', Province);
-
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 />

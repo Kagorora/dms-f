@@ -60,6 +60,12 @@ const Order = ({ match, history }) => {
   }, [successDelivered]);
 
   useEffect(() => {
+    if(orderDetails.paymentMethod === 'LOAN'){
+      orderDetails.order.isLoan(true)
+    }
+  }, [orderDetails])
+
+  useEffect(() => {
     if (order && orderId !== order._id) {
       dispatch(getOrderDetails(orderId));
     } else {
@@ -106,7 +112,10 @@ const Order = ({ match, history }) => {
     <Message variant='danger'>{errorDelivered}</Message>
   ) : (
     <>
-      <h1 className='mt-4'>Order: {order._id}</h1>
+    { orderDetails.order.paymentMethod == 'LOAN' && userInfo.userType !== 'admin' && (
+      <Message variant='success'>Loan successfuly made</Message>
+    )
+    }
       <>
         <Row>
           <Col md={8}>
@@ -216,7 +225,8 @@ const Order = ({ match, history }) => {
                     <Col>FRW {order.totalPrice}</Col>
                   </Row>
                 </ListGroup.Item>
-                {!order.isPaid && (
+                
+                {!order.isPaid && orderDetails.order.paymentMethod !== 'LOAN' && userInfo.userType !== 'admin' && (
                   <ListGroup.Item>
                     {loadingPay && <Loader />}
                     {!sdkReady ? (
