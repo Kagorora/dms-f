@@ -10,6 +10,7 @@ import {
   createProduct,
 } from "../../store/actions/productsActions";
 import { CREATE_PRODUCT_RESET } from "../../store/types/types.js";
+import { ExportCSV } from "./exportCvs.js";
 
 const Products = ({ history }) => {
   const dispatch = useDispatch();
@@ -122,6 +123,11 @@ const Products = ({ history }) => {
                   ))}
                 </tbody>
               </Table>
+              {products && products.length > 0 ? (
+                <ExportCSV csvData={products} fileName={"Report"} />
+              ) : (
+                ""
+              )}
             </>
           )}
         </Col>
