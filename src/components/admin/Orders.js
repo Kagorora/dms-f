@@ -5,6 +5,7 @@ import Message from "../reusable/Message.js";
 import Loader from "../reusable/Loader.js";
 import { listOrders, filterOrdersByDate, filterOrdersPaymentMethod } from "../../store/actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
+import { ExportCSV } from "./exportCvs";
 
 const Orders = ({ history }) => {
 
@@ -127,6 +128,19 @@ const Orders = ({ history }) => {
                   Sort
                 </Button>
               </Col>
+            </Row>
+
+            <Row>
+              <Col md={4}>
+                <FormGroup controlId='toDate'>
+                {list && list.length > 0 ? (
+                <ExportCSV csvData={list} fileName={"Report"} />
+              ) : (
+                ""
+              )}
+                </FormGroup>
+              </Col>
+      
             </Row>
 
           </Form>
