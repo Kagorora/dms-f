@@ -23,7 +23,13 @@ import {
   ADMIN_FILTER_ORDERS_BY_DATES_FAIL,
   ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_REQUEST,
   ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_SUCCESS,
-  ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_FAIL
+  ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_FAIL,
+  ADMIN_FILTER_ORDERS_BY_IS_PAID_REQUEST,
+  ADMIN_FILTER_ORDERS_BY_IS_PAID_SUCCESS,
+  ADMIN_FILTER_ORDERS_BY_IS_PAID_FAIL,
+  ADMIN_FILTER_ORDERS_BY_PROVINCE_REQUEST,
+  ADMIN_FILTER_ORDERS_BY_PROVINCE_SUCCESS,
+  ADMIN_FILTER_ORDERS_BY_PROVINCE_FAIL  
 } from "../types/types.js";
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -253,6 +259,73 @@ export const filterOrdersPaymentMethod = (paymentMethod) => async (dispatch, get
   } catch (error) {
     dispatch({
       type: ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const filterOrdersIsPaid = (isPaid) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_IS_PAID_REQUEST,
+    });
+    
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/orders/sortOrdersByNonPaid/${isPaid}`, config);
+
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_IS_PAID_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_IS_PAID_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
+export const filterOrdersProvince = (Province) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_PROVINCE_REQUEST,
+    });
+    
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/orders/sortOrdersByProvince/${Province}`, config);
+
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_PROVINCE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_FILTER_ORDERS_BY_PROVINCE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

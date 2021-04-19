@@ -3,7 +3,7 @@ import { Button, Row, Col, Table, Form, FormGroup } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import Message from "../reusable/Message.js";
 import Loader from "../reusable/Loader.js";
-import { listOrders, filterOrdersByDate, filterOrdersPaymentMethod } from "../../store/actions/orderActions";
+import { listOrders, filterOrdersByDate, filterOrdersPaymentMethod, filterOrdersIsPaid, filterOrdersProvince } from "../../store/actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
 import { ExportCSV } from "./exportCvs";
 
@@ -16,7 +16,9 @@ const Orders = ({ history }) => {
 
   const [list, setList] = useState([]);
 
-  const [sortedData, setSortedData] = useState([]);
+  const [isPaid, setIsPaid] = useState(Boolean);
+
+  const [Province, setProvince] = useState('');
 
   const dispatch = useDispatch();
 
@@ -30,7 +32,13 @@ const Orders = ({ history }) => {
   const { orders: filteredOrders, loading: filterLoader } = orderFilterByDate;
 
   const orderFilterByPaymentMethod = useSelector((state) => state.orderFilterByPaymentMethod);
-  const { orders: OrdersfilteredByPaymentMethod, loading: OrdersfilteredByPaymentMethodLoader } = orderFilterByPaymentMethod;
+  const { orders: OrdersfilteredByPaymentMethod } = orderFilterByPaymentMethod;
+
+  const orderFilterByIsPaid = useSelector((state) => state.orderFilterByIsPaid);
+  const { orders: OrdersfilteredByIsPaid } = orderFilterByIsPaid;
+
+  const orderFilterByProvince = useSelector((state) => state.orderFilterByProvince);
+  const { orders: OrdersfilteredByProvince} = orderFilterByProvince;
 
   useEffect(() => {
     if (orders) {
@@ -76,6 +84,33 @@ const Orders = ({ history }) => {
     }
   }, [OrdersfilteredByPaymentMethod])
 
+
+  const handleByIsPaid = (e) => {
+    e.preventDefault();
+    if (isPaid) {
+      dispatch(filterOrdersIsPaid(isPaid))
+    }
+  }
+
+  useEffect(() => {
+    if (OrdersfilteredByIsPaid) {
+      setList(OrdersfilteredByIsPaid)
+    }
+  }, [OrdersfilteredByIsPaid])
+
+
+  const handleByProvince = (e) => {
+    e.preventDefault();
+    if(Province) {
+      dispatch(filterOrdersProvince(Province))
+    }
+  }
+
+  useEffect(() => {
+    if(OrdersfilteredByProvince) {
+      setList(OrdersfilteredByProvince)
+    }
+  }, [OrdersfilteredByProvince])
 
   return (
     <div className='justify-content-center'>
@@ -129,18 +164,71 @@ const Orders = ({ history }) => {
                 </Button>
               </Col>
             </Row>
+            
+
+            <Row>
+              <Col md={2}>
+                <FormGroup controlId='toDate'>
+                  <Form.Label>Paid Orders</Form.Label>
+                  <Form.Control
+                    as='select'
+                    value={isPaid}
+                    onChange={(e) =>
+                      setIsPaid(e.target.value)
+                    }
+
+                  >
+                    <option value="true">Paid</option>
+                    <option value="false">Not Paid</option>
+                  </Form.Control>
+                </FormGroup>
+              </Col>
+              <Col md={2}>
+                <Button type='submit' variant='primary' className='btn mb-0 mt-4 rounded' onClick={handleByIsPaid}>
+                  Sort
+                </Button>
+              </Col>
+            </Row>
+
+
+            <Row>
+              <Col md={2}>
+                <FormGroup controlId='toDate'>
+                  <Form.Label>Province</Form.Label>
+                  <Form.Control
+                    as='select'
+                    value={Province}
+                    onChange={(e) =>
+                      setProvince(e.target.value)
+                    }
+
+                  >
+                    <option>Kigali</option>
+                    <option>North</option>
+                    <option>East</option>
+                    <option>West</option>
+                    <option>South</option>
+                  </Form.Control>
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <Button type='submit' variant='primary' className='btn mb-0 mt-4 rounded' onClick={handleByProvince}>
+                  Sort
+                </Button>
+              </Col>
+            </Row>
 
             <Row>
               <Col md={4}>
                 <FormGroup controlId='toDate'>
-                {list && list.length > 0 ? (
-                <ExportCSV csvData={list} fileName={"Report"} />
-              ) : (
-                ""
-              )}
+                  {list && list.length > 0 ? (
+                    <ExportCSV csvData={list} fileName={"Report"} />
+                  ) : (
+                    ""
+                  )}
                 </FormGroup>
               </Col>
-      
+
             </Row>
 
           </Form>
