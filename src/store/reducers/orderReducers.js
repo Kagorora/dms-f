@@ -28,6 +28,12 @@ import {
   ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_SUCCESS,
   ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_REQUEST,
   ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_FAIL,
+  ADMIN_FILTER_ORDERS_BY_IS_PAID_REQUEST,
+  ADMIN_FILTER_ORDERS_BY_IS_PAID_SUCCESS,
+  ADMIN_FILTER_ORDERS_BY_IS_PAID_FAIL,
+  ADMIN_FILTER_ORDERS_BY_PROVINCE_REQUEST,
+  ADMIN_FILTER_ORDERS_BY_PROVINCE_SUCCESS,
+  ADMIN_FILTER_ORDERS_BY_PROVINCE_FAIL
 } from "../types/types.js";
 
 export const orderCreateReducer = (state = {}, action) => {
@@ -170,6 +176,50 @@ export const orderFilterByPaymentMethodReducer = (state = { orders: [] }, action
         orders: action.payload,
       };
     case ADMIN_FILTER_ORDERS_BY_PAYMENT_METHOD_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const orderFilterByIsPaidReducer = (state = { orders: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_FILTER_ORDERS_BY_IS_PAID_REQUEST:
+      return {
+        loading: true,
+      };
+    case ADMIN_FILTER_ORDERS_BY_IS_PAID_SUCCESS:
+      return {
+        loading: false,
+        orders: action.payload,
+      };
+    case ADMIN_FILTER_ORDERS_BY_IS_PAID_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const orderFilterByProvinceReducer = (state = { orders: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_FILTER_ORDERS_BY_PROVINCE_REQUEST:
+      return {
+        loading: true,
+      };
+    case ADMIN_FILTER_ORDERS_BY_PROVINCE_SUCCESS:
+      return {
+        loading: false,
+        orders: action.payload,
+      };
+    case ADMIN_FILTER_ORDERS_BY_PROVINCE_FAIL:
       return {
         loading: false,
         error: action.payload,

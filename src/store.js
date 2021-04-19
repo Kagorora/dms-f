@@ -27,7 +27,9 @@ import {
   adminOrderReducer,
   deliverOrderReducer,
   orderFilterByDateReducer,
-  orderFilterByPaymentMethodReducer
+  orderFilterByPaymentMethodReducer,
+  orderFilterByIsPaidReducer,
+  orderFilterByProvinceReducer
 } from "./store/reducers/orderReducers.js";
 
 const reducer = combineReducers({
@@ -52,7 +54,9 @@ const reducer = combineReducers({
   deliverOrder: deliverOrderReducer,
   createProductReview: createProductReviewReducer,
   orderFilterByDate: orderFilterByDateReducer,
-  orderFilterByPaymentMethod: orderFilterByPaymentMethodReducer
+  orderFilterByPaymentMethod: orderFilterByPaymentMethodReducer,
+  orderFilterByIsPaid: orderFilterByIsPaidReducer,
+  orderFilterByProvince: orderFilterByProvinceReducer
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")
