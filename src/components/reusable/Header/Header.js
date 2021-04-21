@@ -6,6 +6,7 @@ import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { logout } from "../../../store/actions/usersActions";
 import { CART_RESET, ORDER_DETAILS_RESET } from "../../../store/types/types.js";
 import SearchBox from '../SearchBox/SearchBox.js';
+import Logo from '../../../assets/images/mainlogo.png';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,9 @@ const Header = () => {
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>D.M.S</Navbar.Brand>
+            <Navbar.Brand>
+              <img src={Logo} alt='logo' className='logoImage'/>
+            </Navbar.Brand>
           </LinkContainer>
           <Route render={({ history }) => <SearchBox history={history} />} />
           <Navbar.Toggle aria-controls='basic-navbar-nav' />

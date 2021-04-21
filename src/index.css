@@ -15,3 +15,9 @@ h2 {
   font-size: 1.4rem;
   padding: 0.1rem;
 }
+
+.logoImage{
+  height: 30px;
+  width: 70px;
+  margin-right: 8rem;
+}
