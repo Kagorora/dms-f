@@ -33,7 +33,16 @@ import {
   ADMIN_FILTER_ORDERS_BY_IS_PAID_FAIL,
   ADMIN_FILTER_ORDERS_BY_PROVINCE_REQUEST,
   ADMIN_FILTER_ORDERS_BY_PROVINCE_SUCCESS,
-  ADMIN_FILTER_ORDERS_BY_PROVINCE_FAIL
+  ADMIN_FILTER_ORDERS_BY_PROVINCE_FAIL,
+  ADMIN_GET_ALL_LOANS_REQUEST,
+  ADMIN_GET_ALL_LOANS_SUCCESS,
+  ADMIN_GET_ALL_LOANS_FAIL,
+  ADMIN_LOAN_APPROVE_SUCCESS,
+  ADMIN_LOAN_APPROVE_REQUEST,
+  ADMIN_LOAN_APPROVE_FAIL,
+  ADMIN_GET_LOAN_BY_STATUS_SUCCESS,
+  ADMIN_GET_LOAN_BY_STATUS_REQUEST,
+  ADMIN_GET_LOAN_BY_STATUS_FAIL,
 } from "../types/types.js";
 
 export const orderCreateReducer = (state = {}, action) => {
@@ -276,6 +285,72 @@ export const deliverOrderReducer = (state = {}, action) => {
 
     case MARK_ORDER_DELIVERED_RESET:
       return {};
+
+    default:
+      return state;
+  }
+};
+
+export const getAllLoansReducer = (state = { loans: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_GET_ALL_LOANS_REQUEST:
+      return {
+        loading: true,
+      };
+    case ADMIN_GET_ALL_LOANS_SUCCESS:
+      return {
+        loading: false,
+        loans: action.payload,
+      };
+    case ADMIN_GET_ALL_LOANS_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const ApproveLoanReducer = (state = { orders: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_LOAN_APPROVE_REQUEST:
+      return {
+        loading: true,
+      };
+    case ADMIN_LOAN_APPROVE_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case ADMIN_LOAN_APPROVE_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const orderFilterByLoanStatusReducer = (state = { orders: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_GET_LOAN_BY_STATUS_REQUEST:
+      return {
+        loading: true,
+      };
+    case ADMIN_GET_LOAN_BY_STATUS_SUCCESS:
+      return {
+        loading: false,
+        orders: action.payload,
+      };
+    case ADMIN_GET_LOAN_BY_STATUS_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
 
     default:
       return state;

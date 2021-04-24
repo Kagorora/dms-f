@@ -16,6 +16,7 @@ import Order from "./components/order/Order.js";
 import MyOrders from "./components/myOrders/MyOrders.js";
 import Users from "./components/admin/Users.js";
 import Orders from "./components/admin/Orders.js";
+import Loans from "./components/admin/Loans.js";
 import EditUserInfo from "./components/admin/EditUser.js";
 import Products from "./components/admin/Products.js";
 import EditProduct from "./components/admin/EditProduct.js";
@@ -30,6 +31,7 @@ const App = () => {
           <Route path='/admin/products' component={Products} />
           <Route path='/admin/users' component={Users} />
           <Route path='/admin/orders' component={Orders} />
+          <Route path='/admin/loans' component={Loans} />
           <Route path='/admin/user/:id/edit' component={EditUserInfo} />
           <Route path='/MyOrders' component={MyOrders} />
           <Route path='/order/:id' component={Order} />

@@ -15,14 +15,13 @@ const Payment = ({ history }) => {
 
   const dispatch = useDispatch();
 
-  const [paymentMethod, setPaymentMethod] = useState("PayPal");
+  const [paymentMethod, setPaymentMethod] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(savePaymentMethod(paymentMethod));
     history.push("/placeOrder");
   };
-
 
   return (
     <FormContainer>
@@ -39,20 +38,9 @@ const Payment = ({ history }) => {
               name='paymentMethod'
               value='PayPal'
               id='PayPal'
-              checked
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
           </Col>
-          {/* <Col>
-            <Form.Check
-              type='radio'
-              label='MOMO'
-              name='paymentMethod'
-              value='MOMO'
-              id='MOMO'
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check>
-          </Col> */}
           <Col>
             <Form.Check
               type='radio'

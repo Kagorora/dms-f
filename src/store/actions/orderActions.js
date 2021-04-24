@@ -29,7 +29,16 @@ import {
   ADMIN_FILTER_ORDERS_BY_IS_PAID_FAIL,
   ADMIN_FILTER_ORDERS_BY_PROVINCE_REQUEST,
   ADMIN_FILTER_ORDERS_BY_PROVINCE_SUCCESS,
-  ADMIN_FILTER_ORDERS_BY_PROVINCE_FAIL  
+  ADMIN_FILTER_ORDERS_BY_PROVINCE_FAIL,
+  ADMIN_GET_ALL_LOANS_REQUEST,
+  ADMIN_GET_ALL_LOANS_SUCCESS,
+  ADMIN_GET_ALL_LOANS_FAIL,
+  ADMIN_LOAN_APPROVE_SUCCESS,
+  ADMIN_LOAN_APPROVE_REQUEST,
+  ADMIN_LOAN_APPROVE_FAIL,  
+  ADMIN_GET_LOAN_BY_STATUS_SUCCESS,
+  ADMIN_GET_LOAN_BY_STATUS_REQUEST,
+  ADMIN_GET_LOAN_BY_STATUS_FAIL,
 } from "../types/types.js";
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -359,6 +368,105 @@ export const markOrderAsDelivered = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: MARK_ORDER_DELIVERED_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getAllLoan = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_GET_ALL_LOANS_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/loans/All`, config);
+
+    dispatch({
+      type: ADMIN_GET_ALL_LOANS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_GET_ALL_LOANS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const loanApprovers = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_LOAN_APPROVE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/loans/approve/${id}`, {}, config);
+
+    dispatch({
+      type: ADMIN_LOAN_APPROVE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_LOAN_APPROVE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const filterByLoanStatus = (loanStatus) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_GET_LOAN_BY_STATUS_REQUEST,
+    });
+    
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/loans/${loanStatus}`, config);
+
+    dispatch({
+      type: ADMIN_GET_LOAN_BY_STATUS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_GET_LOAN_BY_STATUS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

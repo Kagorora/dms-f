@@ -29,7 +29,10 @@ import {
   orderFilterByDateReducer,
   orderFilterByPaymentMethodReducer,
   orderFilterByIsPaidReducer,
-  orderFilterByProvinceReducer
+  orderFilterByProvinceReducer,
+  getAllLoansReducer,
+  ApproveLoanReducer,
+  orderFilterByLoanStatusReducer
 } from "./store/reducers/orderReducers.js";
 
 const reducer = combineReducers({
@@ -56,7 +59,10 @@ const reducer = combineReducers({
   orderFilterByDate: orderFilterByDateReducer,
   orderFilterByPaymentMethod: orderFilterByPaymentMethodReducer,
   orderFilterByIsPaid: orderFilterByIsPaidReducer,
-  orderFilterByProvince: orderFilterByProvinceReducer
+  orderFilterByProvince: orderFilterByProvinceReducer,
+  getAllLoans: getAllLoansReducer,
+  ApproveLoan: ApproveLoanReducer,
+  orderFilterByLoanStatus: orderFilterByLoanStatusReducer
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")

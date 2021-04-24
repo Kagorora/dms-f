@@ -21,3 +21,19 @@ h2 {
   width: 70px;
   margin-right: 8rem;
 }
+
+.loan-approved-pending{
+  color: #df4a4a;
+}
+
+.loan-approved-approved{
+  color: #71fca6;
+}
+
+.approve-btn{
+  width: 100px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 3px;
+  border: 1px solid #44bb86;
+}
