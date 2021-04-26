@@ -6,7 +6,7 @@ import Loader from "../reusable/Loader.js";
 import { listOrders, filterOrdersByDate, filterOrdersPaymentMethod, filterOrdersIsPaid, filterOrdersProvince } from "../../store/actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
 import { ExportCSV } from "./exportCvs";
-import Logo from '../../assets/images/mainlogo.png';
+import Logo from "../../assets/images/mainlogo.png";
 
 
 const printOrdersReport = (title) => {
